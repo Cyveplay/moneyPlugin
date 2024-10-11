@@ -12,9 +12,11 @@ import java.util.UUID;
 public class MoneyCommand implements CommandExecutor {
 
     private MoneyManager moneyManager;
+    private PermissionManager permissionManager;
 
     public MoneyCommand(MoneyManager moneyManager) {
         this.moneyManager = moneyManager;
+        this.permissionManager = permissionManager;
     }
 
     @Override
@@ -30,28 +32,31 @@ public class MoneyCommand implements CommandExecutor {
                 return true;
             }
 
-            // Geld hinzufügen (z.B. /money add <betrag>)
-            if (args.length == 2 && args[0].equalsIgnoreCase("add")) {
-                try {
-                    double amount = Double.parseDouble(args[1]);
-                    moneyManager.addMoney(playerUUID, amount);
-                    player.sendMessage(amount + " Münzen wurden deinem Konto gutgeschrieben.");
-                } catch (NumberFormatException e) {
-                    player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
-                }
-                return true;
-            }
+            if (permissionManager.hasPermission(playerUUID, "ManageMoney")) {
 
-            // Geld abziehen (z.B. /money remove <betrag>)
-            if (args.length == 2 && args[0].equalsIgnoreCase("remove")) {
-                try {
-                    double amount = Double.parseDouble(args[1]);
-                    moneyManager.removeMoney(playerUUID, amount);
-                    player.sendMessage(amount + " Münzen wurden von deinem Konto abgezogen.");
-                } catch (NumberFormatException e) {
-                    player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
+                // Geld hinzufügen (z.B. /money add <betrag>)
+                if (args.length == 2 && args[0].equalsIgnoreCase("add")) {
+                    try {
+                        double amount = Double.parseDouble(args[1]);
+                        moneyManager.addMoney(playerUUID, amount);
+                        player.sendMessage(amount + " Münzen wurden deinem Konto gutgeschrieben.");
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
+                    }
+                    return true;
                 }
-                return true;
+
+                // Geld abziehen (z.B. /money remove <betrag>)
+                if (args.length == 2 && args[0].equalsIgnoreCase("remove")) {
+                    try {
+                        double amount = Double.parseDouble(args[1]);
+                        moneyManager.removeMoney(playerUUID, amount);
+                        player.sendMessage(amount + " Münzen wurden von deinem Konto abgezogen.");
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
+                    }
+                    return true;
+                }
             }
 
             // Geld überweisen (z.B. /money pay <spieler> <betrag>)

@@ -10,11 +10,13 @@ import java.util.UUID;
 public class Main extends JavaPlugin implements Listener {
 
     private MoneyManager moneyManager;
+    private PermissionManager permissionManager;
 
     @Override
     public void onEnable() {
         // Initialisiere das MoneyManager-System
         moneyManager = new MoneyManager();
+        permissionManager = new PermissionManager();
 
         // Event-Registrierung
         getServer().getPluginManager().registerEvents(this, this);
@@ -26,6 +28,8 @@ public class Main extends JavaPlugin implements Listener {
         // TradeCommand und zugehörigen TabCompleter registrieren
         this.getCommand("trade").setExecutor(new TradeCommand(moneyManager));
         this.getCommand("trade").setTabCompleter(new TradeTabCompleter());
+
+        this.getCommand("permission").setExecutor(new PermissionCommand(permissionManager));
     }
 
     @Override

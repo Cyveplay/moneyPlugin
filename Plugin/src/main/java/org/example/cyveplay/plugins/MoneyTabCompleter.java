@@ -9,22 +9,30 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class MoneyTabCompleter implements TabCompleter {
+    PermissionManager permissionManager;
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String alias, String[] args) {
         List<String> suggestions = new ArrayList<>();
+        Player playerr = (Player) commandSender;
 
-        if (args.length == 1){
-            if ("add".startsWith(args[0].toLowerCase())) {
-                suggestions.add("add");
+        if (permissionManager.hasPermission(playerr.getUniqueId(), "ManageMoney" )) {
+
+            if (args.length == 1) {
+                if ("add".startsWith(args[0].toLowerCase())) {
+                    suggestions.add("add");
+                }
+                if ("remove".startsWith(args[0].toLowerCase())) {
+                    suggestions.add("remove");
+                }
             }
-            if ("remove".startsWith(args[0].toLowerCase())) {
-                suggestions.add("remove");
-            }
+        }
             if ("pay".startsWith(args[0].toLowerCase())) {
                 suggestions.add("pay");
             }
-        }
+
         if (args.length == 2 && args[0].equalsIgnoreCase("pay")) {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
