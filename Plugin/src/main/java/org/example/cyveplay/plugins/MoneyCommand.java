@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.ChatColor;
 
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class MoneyCommand implements CommandExecutor {
                     moneyManager.addMoney(playerUUID, amount);
                     player.sendMessage(amount + " Münzen wurden deinem Konto gutgeschrieben.");
                 } catch (NumberFormatException e) {
-                    player.sendMessage("Bitte gib einen gültigen Betrag an.");
+                    player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
                 }
                 return true;
             }
@@ -48,7 +49,7 @@ public class MoneyCommand implements CommandExecutor {
                     moneyManager.removeMoney(playerUUID, amount);
                     player.sendMessage(amount + " Münzen wurden von deinem Konto abgezogen.");
                 } catch (NumberFormatException e) {
-                    player.sendMessage("Bitte gib einen gültigen Betrag an.");
+                    player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
                 }
                 return true;
             }
@@ -68,7 +69,11 @@ public class MoneyCommand implements CommandExecutor {
 
                 Player targetPlayer = Bukkit.getPlayer(receiverPlayerName);
                 if (targetPlayer == null) {
-                    player.sendMessage("Spieler ist nicht online oder konnte nicht gefunden werden!");
+                    player.sendMessage(ChatColor.RED + "Spieler ist nicht online oder konnte nicht gefunden werden!");
+                    return true;
+                }
+                if (player == targetPlayer){
+                    player.sendMessage(ChatColor.RED + "Du kannst dir selbst kein Geld senden!");
                     return true;
                 }
 
@@ -78,13 +83,13 @@ public class MoneyCommand implements CommandExecutor {
                     player.sendMessage("Du hast " + amount + " Münzen an " + targetPlayer.getName() + " überwiesen.");
                     targetPlayer.sendMessage("Du hast " + amount + " Münzen von " + player.getName() + " erhalten.");
                 } else {
-                    player.sendMessage("Du hast nicht genug Geld!");
+                    player.sendMessage(ChatColor.RED + "Du hast nicht genug Geld!");
                 }
                 return true;
             }
 
             // Unbekannter oder falsch eingegebener Befehl
-            player.sendMessage("Falsche Verwendung des Befehls. Nutze: /money [add/remove/pay] <betrag>.");
+            player.sendMessage(ChatColor.RED + "Falsche Verwendung des Befehls. Nutze: /money [add/remove/pay] <betrag>.");
         }
         return true;
     }

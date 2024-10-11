@@ -1,4 +1,7 @@
 org\example\cyveplay\plugins\Main.class
 org\example\cyveplay\plugins\MoneyTabCompleter.class
-org\example\cyveplay\plugins\MoneyCommand.class
 org\example\cyveplay\plugins\MoneyManager.class
+org\example\cyveplay\plugins\TradeRequest.class
+org\example\cyveplay\plugins\MoneyCommand.class
+org\example\cyveplay\plugins\TradeCommand.class
+org\example\cyveplay\plugins\TradeTabCompleter.class

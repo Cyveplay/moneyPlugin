@@ -13,17 +13,26 @@ public class Main extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        // Initialisiere das MoneyManager-System
         moneyManager = new MoneyManager();
-        getServer().getPluginManager().registerEvents(this, this);
-        this.getCommand("money").setExecutor(new MoneyCommand(moneyManager));
 
+        // Event-Registrierung
+        getServer().getPluginManager().registerEvents(this, this);
+
+        // MoneyCommand und zugehörigen TabCompleter registrieren
+        this.getCommand("money").setExecutor(new MoneyCommand(moneyManager));
         this.getCommand("money").setTabCompleter(new MoneyTabCompleter());
+
+        // TradeCommand und zugehörigen TabCompleter registrieren
+        this.getCommand("trade").setExecutor(new TradeCommand(moneyManager));
+        this.getCommand("trade").setTabCompleter(new TradeTabCompleter());
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
     }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         // Hol dir die UUID des Spielers

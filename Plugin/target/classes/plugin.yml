@@ -5,5 +5,13 @@ api-version: '1.20'
 
 commands:
   money:
-    description: Verwalte dein Geld
-    usage: /money add/remove <betrag>
+    description: Verwalte dein Geld.
+    usage: /money [add/remove] <Betrag> | /money
+    aliases: []
+    tab-completer: org.example.cyveplay.plugins.MoneyTabCompleter
+
+  trade:
+    description: Handel mit anderen Spielern.
+    usage: /trade send <player> <preis> | /trade accept | /trade deny
+    aliases: []
+    tab-completer: org.example.cyveplay.plugins.TradeTabCompleter
