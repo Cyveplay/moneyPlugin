@@ -1,0 +1,4 @@
+org\example\cyveplay\plugins\Main.class
+org\example\cyveplay\plugins\MoneyTabCompleter.class
+org\example\cyveplay\plugins\MoneyCommand.class
+org\example\cyveplay\plugins\MoneyManager.class
