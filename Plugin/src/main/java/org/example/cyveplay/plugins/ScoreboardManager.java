@@ -22,10 +22,7 @@ public class ScoreboardManager {
         org.bukkit.scoreboard.ScoreboardManager scoreboardManager = Bukkit.getScoreboardManager();
 
         // Erstelle ein neues Scoreboard
-        Scoreboard scoreboard = null;
-        if (scoreboardManager != null) {
-            scoreboard = scoreboardManager.getNewScoreboard();
-        }
+        Scoreboard scoreboard = scoreboardManager.getNewScoreboard();
 
         // Erstelle ein neues Objective für das Scoreboard
         Objective objective = scoreboard.registerNewObjective("Geld", "dummy", ChatColor.GOLD + "Dein Geld");
