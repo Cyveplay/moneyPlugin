@@ -10,4 +10,5 @@ org\example\cyveplay\plugins\PermissionTabCompleter.class
 org\example\cyveplay\plugins\MoneyTabCompleter.class
 org\example\cyveplay\plugins\PermissionCommand.class
 org\example\cyveplay\plugins\PermissionManager.class
+org\example\cyveplay\plugins\DataManager.class
 org\example\cyveplay\plugins\TradeTabCompleter.class

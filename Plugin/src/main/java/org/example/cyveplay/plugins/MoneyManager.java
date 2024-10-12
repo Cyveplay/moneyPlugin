@@ -1,6 +1,7 @@
 package org.example.cyveplay.plugins;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.UUID;
 
 public class MoneyManager {
@@ -43,5 +44,8 @@ public class MoneyManager {
         } else {
             System.out.println("Nicht genug Guthaben für diese Transaktion.");
         }
+    }
+    public Set<UUID> getAllPlayerUUIDs() {
+        return playerBalances.keySet(); // Gibt das Set aller Spieler-UUIDs zurück
     }
 }
