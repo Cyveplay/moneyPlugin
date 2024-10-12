@@ -39,23 +39,15 @@ public class PermissionManager {
 
     // Methode, um zu prüfen, ob ein Spieler eine bestimmte Berechtigung hat
     public boolean hasPermission(UUID playerUUID, String permission) {
-        List<String> permissions = playerPermissions.get(playerUUID);
-        return permissions != null && permissions.contains(permission);  // Überprüfen, ob die Berechtigung vorhanden ist
+        List<String> permissions = playerPermissions.getOrDefault(playerUUID, new ArrayList<>());
+        return permissions.contains(permission);
     }
+
 
     // Methode, um zu überprüfen, ob der Spieler eine der angegebenen Berechtigungen hat
-    public boolean hasAnyPermission(UUID playerUUID, List<String> permissions) {
-        List<String> playerPerms = playerPermissions.get(playerUUID);
-        if (playerPerms != null) {
-            for (String perm : permissions) {
-                if (playerPerms.contains(perm)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+    public boolean doesPermissionExist(String permission) {
+        return Permissions.contains(permission);
     }
-
     // Methode, um alle Berechtigungen eines Spielers zu bekommen
     public List<String> getPermissions(UUID playerUUID) {
         return playerPermissions.getOrDefault(playerUUID, new ArrayList<>());  // Gibt die Liste der Berechtigungen zurück oder eine leere Liste

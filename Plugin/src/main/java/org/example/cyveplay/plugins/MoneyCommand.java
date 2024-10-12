@@ -14,7 +14,7 @@ public class MoneyCommand implements CommandExecutor {
     private MoneyManager moneyManager;
     private PermissionManager permissionManager;
 
-    public MoneyCommand(MoneyManager moneyManager) {
+    public MoneyCommand(MoneyManager moneyManager, PermissionManager permissionManager) {
         this.moneyManager = moneyManager;
         this.permissionManager = permissionManager;
     }

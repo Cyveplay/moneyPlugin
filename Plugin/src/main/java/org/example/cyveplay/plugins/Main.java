@@ -11,25 +11,30 @@ public class Main extends JavaPlugin implements Listener {
 
     private MoneyManager moneyManager;
     private PermissionManager permissionManager;
+    ScoreboardManager scoreboardManager;
 
     @Override
     public void onEnable() {
         // Initialisiere das MoneyManager-System
         moneyManager = new MoneyManager();
         permissionManager = new PermissionManager();
+        scoreboardManager = new ScoreboardManager(this);
+
 
         // Event-Registrierung
-        getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
         // MoneyCommand und zugehörigen TabCompleter registrieren
-        this.getCommand("money").setExecutor(new MoneyCommand(moneyManager));
-        this.getCommand("money").setTabCompleter(new MoneyTabCompleter());
+        this.getCommand("money").setExecutor(new MoneyCommand(moneyManager, permissionManager));
+        this.getCommand("money").setTabCompleter(new MoneyTabCompleter(permissionManager));
 
         // TradeCommand und zugehörigen TabCompleter registrieren
         this.getCommand("trade").setExecutor(new TradeCommand(moneyManager));
         this.getCommand("trade").setTabCompleter(new TradeTabCompleter());
 
+        // PermissionCommand und zugehörigen TabCompleter registrieren
         this.getCommand("permission").setExecutor(new PermissionCommand(permissionManager));
+        this.getCommand("permission").setTabCompleter(new PermissionTabCompleter(permissionManager));
     }
 
     @Override
@@ -53,5 +58,13 @@ public class Main extends JavaPlugin implements Listener {
     // Beispiel einer Methode, um einem Spieler Geld zu geben
     public void givePlayerMoney(UUID playerUUID, double amount) {
         moneyManager.addMoney(playerUUID, amount);
+    }
+    public MoneyManager getMoneyManager() {
+        return moneyManager;
+    }
+
+    // Getter für ScoreboardManager
+    public ScoreboardManager getScoreboardManager() {
+        return scoreboardManager;
     }
 }

@@ -49,15 +49,14 @@ public class PermissionCommand implements CommandExecutor {
         }
 
         UUID targetUUID = target.getUniqueId();
-        String permission = args[2].toLowerCase();  // Die Berechtigung, die zugewiesen oder entfernt werden soll
+        String permission = args[2];  // Die Berechtigung, die zugewiesen oder entfernt werden soll
 
         // Überprüfen, ob die Berechtigung existiert
-        if (!permissionManager.hasAnyPermission(targetUUID, List.of(permission))) {
-            player.sendMessage(ChatColor.RED + "Diese Berechtigung existiert nicht!");
+        if (!(permissionManager.doesPermissionExist(permission))) {
+            player.sendMessage(ChatColor.RED + "Diese Berechtigung existiert nicht! Berechtigungen: "+ permissionManager.getPossiblePermissions() );
             return false;
         }
 
-        if (permissionManager.getPossiblePermissions().contains(permission)) {
 
             // Befehl "set" oder "remove" ausführen
             if (args[0].equalsIgnoreCase("set")) {
@@ -70,9 +69,7 @@ public class PermissionCommand implements CommandExecutor {
                 player.sendMessage(ChatColor.RED + "Ungültiger Befehl! Verwende /permission [set/remove] {Spielername} {Permission}");
                 return false;
             }
-        }else{
-            player.sendMessage(ChatColor.RED + "Diese Berechntigung existiert nicht!");
-        }
+
 
         return true;
     }

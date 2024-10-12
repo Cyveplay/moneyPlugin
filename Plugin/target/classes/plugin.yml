@@ -15,3 +15,9 @@ commands:
     usage: /trade send <player> <preis> | /trade accept | /trade deny
     aliases: []
     tab-completer: org.example.cyveplay.plugins.TradeTabCompleter
+
+  permission:
+    description: Verwalte Berechtigungen für Spieler.
+    usage: /permission [set/remove] <player> <permission>
+    aliases: []
+    tab-completer: org.example.cyveplay.plugins.PermissionTabCompleter
