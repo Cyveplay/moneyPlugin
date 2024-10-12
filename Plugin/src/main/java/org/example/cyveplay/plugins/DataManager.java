@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,4 +80,12 @@ public class DataManager {
             e.printStackTrace();
         }
     }
+    public List<UUID> getAllPlayerUUIDs() {
+        List<UUID> uuids = new ArrayList<>();
+        for (String key : moneyConfig.getKeys(false)) {
+            uuids.add(UUID.fromString(key)); // Holt alle UUIDs aus der money.yml
+        }
+        return uuids;
+    }
+
 }

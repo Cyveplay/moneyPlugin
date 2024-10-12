@@ -1,7 +1,9 @@
 package org.example.cyveplay.plugins;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {
@@ -21,13 +23,21 @@ public class Main extends JavaPlugin {
         dataManager = new DataManager(this);
         scoreboardManager = new ScoreboardManager(this);
 
-        // Lade die Spieler-Daten beim Start und initialisiere deren Scoreboards
-        for (UUID playerUUID : getServer().getOnlinePlayers().stream().map(p -> p.getUniqueId()).toList()) {
+        // Lade die Daten für alle Spieler, auch die, die nicht online sind
+        for (UUID playerUUID : dataManager.getAllPlayerUUIDs()) {  // Hier rufst du die UUIDs aus der Datei ab
+            // Lade das Geld für den Spieler
             double money = dataManager.loadMoney(playerUUID);
             moneyManager.setMoney(playerUUID, money);
-            permissionManager.addPermissions(playerUUID, dataManager.loadPermissions(playerUUID));
-            // Scoreboard für jeden online Spieler erstellen
-            scoreboardManager.createScoreboard(getServer().getPlayer(playerUUID));
+
+            // Lade und wende die Berechtigungen an
+            List<String> permissions = dataManager.loadPermissions(playerUUID);
+            permissionManager.addPermissions(playerUUID, permissions);
+
+            // Hole den Player, um das Scoreboard zu erstellen, falls er online ist
+            Player player = getServer().getPlayer(playerUUID);
+            if (player != null) {
+                scoreboardManager.createScoreboard(player);
+            }
         }
 
         // Event-Registrierung
@@ -44,6 +54,7 @@ public class Main extends JavaPlugin {
         // Starte die regelmäßige Scoreboard-Aktualisierung
         scoreboardManager.startScoreboardUpdateTask();
     }
+
 
     @Override
     public void onDisable() {
