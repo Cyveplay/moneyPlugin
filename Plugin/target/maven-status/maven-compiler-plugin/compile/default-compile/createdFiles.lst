@@ -1,9 +1,12 @@
 org\example\cyveplay\plugins\Main.class
 org\example\cyveplay\plugins\AntiReportSystem.class
 org\example\cyveplay\plugins\SellCommand.class
+org\example\cyveplay\plugins\MarketCommand.class
+org\example\cyveplay\plugins\MarketManager.class
 org\example\cyveplay\plugins\MoneyManager.class
 org\example\cyveplay\plugins\ScoreboardManager.class
 org\example\cyveplay\plugins\TradeRequest.class
+org\example\cyveplay\plugins\MarketTabCompleter.class
 org\example\cyveplay\plugins\MoneyCommand.class
 org\example\cyveplay\plugins\TradeCommand.class
 org\example\cyveplay\plugins\PlayerJoinListener.class

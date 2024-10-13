@@ -57,6 +57,16 @@ public class MoneyCommand implements CommandExecutor {
                     }
                     return true;
                 }
+                if (args.length == 2 && args[0].equalsIgnoreCase("set")) {
+                    try {
+                        double amount = Double.parseDouble(args[1]);
+                        moneyManager.setMoney(playerUUID, amount);
+                        player.sendMessage(amount + " Münzen wurden von deinem Konto abgezogen.");
+                    } catch (NumberFormatException e) {
+                        player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
+                    }
+                    return true;
+                }
             }
 
             // Geld überweisen (z.B. /money pay <spieler> <betrag>)
@@ -79,6 +89,10 @@ public class MoneyCommand implements CommandExecutor {
                 }
                 if (player == targetPlayer){
                     player.sendMessage(ChatColor.RED + "Du kannst dir selbst kein Geld senden!");
+                    return true;
+                }
+                if (amount < 1){
+                    player.sendMessage(ChatColor.RED + "Du kannst keinen negativen Betrag überweisen!");
                     return true;
                 }
 

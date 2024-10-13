@@ -12,6 +12,7 @@ public class Main extends JavaPlugin {
     private PermissionManager permissionManager;
     private DataManager dataManager;
     private ScoreboardManager scoreboardManager;
+    private MarketManager marketManager;  // Neu hinzugefügt
 
     @Override
     public void onEnable() {
@@ -22,6 +23,7 @@ public class Main extends JavaPlugin {
         // Lade die Daten
         dataManager = new DataManager(this);
         scoreboardManager = new ScoreboardManager(this);
+        marketManager = new MarketManager(this, moneyManager);  // Neu hinzugefügt
 
         // Lade die Daten für alle Spieler, auch die, die nicht online sind
         for (UUID playerUUID : dataManager.getAllPlayerUUIDs()) {  // Hier rufst du die UUIDs aus der Datei ab
@@ -42,7 +44,7 @@ public class Main extends JavaPlugin {
 
         // Event-Registrierung
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
-        getServer().getPluginManager().registerEvents(new AntiReportSystem(),this);
+        getServer().getPluginManager().registerEvents(new AntiReportSystem(), this);
 
         // Befehle und TabCompleter registrieren
         this.getCommand("money").setExecutor(new MoneyCommand(moneyManager, permissionManager));
@@ -53,10 +55,13 @@ public class Main extends JavaPlugin {
         this.getCommand("permission").setTabCompleter(new PermissionTabCompleter(permissionManager));
         this.getCommand("sell").setExecutor(new SellCommand(moneyManager));
 
+        // Hier die Registrierung des Market-Befehls und TabCompleters
+        this.getCommand("market").setExecutor(new MarketCommand(marketManager));
+        this.getCommand("market").setTabCompleter(new MarketTabCompleter(marketManager));
+
         // Starte die regelmäßige Scoreboard-Aktualisierung
         scoreboardManager.startScoreboardUpdateTask();
     }
-
 
     @Override
     public void onDisable() {
@@ -64,7 +69,11 @@ public class Main extends JavaPlugin {
         for (UUID playerUUID : moneyManager.getAllPlayerUUIDs()) {
             dataManager.saveMoney(playerUUID, moneyManager.getMoney(playerUUID));
             dataManager.savePermissions(playerUUID, permissionManager.getPermissions(playerUUID));
+            marketManager.saveShop(playerUUID.toString());
         }
+
+        // Speichere den Marktstatus
+          // Neu hinzugefügt, um Shops zu speichern
     }
 
     public MoneyManager getMoneyManager() {
@@ -77,5 +86,9 @@ public class Main extends JavaPlugin {
 
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;
+    }
+
+    public MarketManager getMarketManager() {
+        return marketManager;
     }
 }

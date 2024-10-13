@@ -1,29 +1,20 @@
-name: Main
-version: '${project.version}'
+name: MarleysEconomy
 main: org.example.cyveplay.plugins.Main
-api-version: '1.20'
-
+version: 1.0
+api-version: 1.21
 commands:
   money:
-    description: Verwalte dein Geld.
-    usage: /money [add/remove] <Betrag> | /money
-    aliases: []
-    tab-completer: org.example.cyveplay.plugins.MoneyTabCompleter
-
+    description: Command to manage money.
+    usage: /money [add/remove/pay]
   trade:
-    description: Handel mit anderen Spielern.
-    usage: /trade send <player> <preis> | /trade accept | /trade deny
-    aliases: []
-    tab-completer: org.example.cyveplay.plugins.TradeTabCompleter
-
+    description: Command to trade items.
+    usage: /trade <player> <amount>
   permission:
-    description: Verwalte Berechtigungen für Spieler.
-    usage: /permission [set/remove] <player> <permission>
-    aliases: []
-    tab-completer: org.example.cyveplay.plugins.PermissionTabCompleter
-
+    description: Manage permissions for players.
+    usage: /permission [add/remove] <player> <permission>
   sell:
-    description: Verkaufe deine Diamanten!
+    description: Command to sell items.
     usage: /sell
-    aliases: []
-    
+  market:
+    description: Manage the player market.
+    usage: /market add [price] or /market open [player]

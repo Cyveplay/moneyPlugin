@@ -1,5 +1,6 @@
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\DataManager.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\PermissionCommand.java
+C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\MarketTabCompleter.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\PlayerJoinListener.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\ScoreboardManager.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\PermissionTabCompleter.java
@@ -9,6 +10,8 @@ C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\SellCommand.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\TradeRequest.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\TradeTabCompleter.java
+C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\MarketCommand.java
+C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\MarketManager.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\AntiReportSystem.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Main.java
 C:\Users\cyvep\Desktop\moneyPlugin\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\MoneyCommand.java
