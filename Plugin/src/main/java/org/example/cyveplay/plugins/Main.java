@@ -42,6 +42,7 @@ public class Main extends JavaPlugin {
 
         // Event-Registrierung
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new AntiReportSystem(),this);
 
         // Befehle und TabCompleter registrieren
         this.getCommand("money").setExecutor(new MoneyCommand(moneyManager, permissionManager));
