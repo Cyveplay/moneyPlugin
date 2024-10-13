@@ -1,4 +1,5 @@
 org\example\cyveplay\plugins\Main.class
+org\example\cyveplay\plugins\SellCommand.class
 org\example\cyveplay\plugins\MoneyManager.class
 org\example\cyveplay\plugins\ScoreboardManager.class
 org\example\cyveplay\plugins\TradeRequest.class

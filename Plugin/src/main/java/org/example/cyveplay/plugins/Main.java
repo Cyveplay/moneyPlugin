@@ -50,6 +50,7 @@ public class Main extends JavaPlugin {
         this.getCommand("trade").setTabCompleter(new TradeTabCompleter());
         this.getCommand("permission").setExecutor(new PermissionCommand(permissionManager));
         this.getCommand("permission").setTabCompleter(new PermissionTabCompleter(permissionManager));
+        this.getCommand("sell").setExecutor(new SellCommand(moneyManager));
 
         // Starte die regelmäßige Scoreboard-Aktualisierung
         scoreboardManager.startScoreboardUpdateTask();

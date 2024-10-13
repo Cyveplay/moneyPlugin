@@ -53,6 +53,10 @@ public class TradeCommand implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Preis an.");
                     return true;
                 }
+                if (price < 1.0){
+                    player.sendMessage(ChatColor.RED + "Preis muss mindestens 1 Betragen!");
+                    return true;
+                }
 
                 // Handelsanfrage erstellen
                 TradeRequest tradeRequest = new TradeRequest(player, target, itemInHand, itemInHand.getAmount(), price);

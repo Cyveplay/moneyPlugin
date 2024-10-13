@@ -21,3 +21,9 @@ commands:
     usage: /permission [set/remove] <player> <permission>
     aliases: []
     tab-completer: org.example.cyveplay.plugins.PermissionTabCompleter
+
+  sell:
+    description: Verkaufe deine Diamanten!
+    usage: /sell
+    aliases: []
+    
