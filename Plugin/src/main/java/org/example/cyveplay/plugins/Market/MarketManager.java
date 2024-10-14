@@ -94,6 +94,7 @@ public class MarketManager implements Listener {
     }
 
 
+
     // Öffnet den Shop eines anderen Spielers
     public void openShop(Player viewer, String ownerName) {
         Inventory shopInventory = loadShop(ownerName);
