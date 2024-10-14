@@ -104,7 +104,6 @@ public class MarketManager implements Listener {
         }
     }
 
-
     // Event, um den Kauf von Items zu handhaben
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
