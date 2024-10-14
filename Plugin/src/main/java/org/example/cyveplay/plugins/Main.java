@@ -39,7 +39,6 @@ public class Main extends JavaPlugin {
             moneyManager.setMoney(playerUUID, money);
 
 
-
             // Lade und wende die Berechtigungen an
             List<String> permissions = dataManager.loadPermissions(playerUUID);
             permissionManager.addPermissions(playerUUID, permissions);
@@ -71,7 +70,7 @@ public class Main extends JavaPlugin {
         this.getCommand("market").setTabCompleter(new org.example.cyveplay.plugins.Market.MarketTabCompleter(marketManager));
         this.getCommand("enderchest").setExecutor(new org.example.cyveplay.plugins.Enderchest.EnderchestCommand(enderchestManager));
 
-
+        enderchestManager.loadAllEnderchests(dataManager.getAllPlayerUUIDs());
 
         // Starte die regelmäßige Scoreboard-Aktualisierung
         scoreboardManager.startScoreboardUpdateTask();
@@ -83,9 +82,8 @@ public class Main extends JavaPlugin {
         for (UUID playerUUID : moneyManager.getAllPlayerUUIDs()) {
             dataManager.saveMoney(playerUUID, moneyManager.getMoney(playerUUID));
             dataManager.savePermissions(playerUUID, permissionManager.getPermissions(playerUUID));
-            marketManager.saveShop(playerUUID.toString());
         }
-
+        enderchestManager.saveAllEnderChests();
     }
 
     public org.example.cyveplay.plugins.Money.MoneyManager getMoneyManager() {

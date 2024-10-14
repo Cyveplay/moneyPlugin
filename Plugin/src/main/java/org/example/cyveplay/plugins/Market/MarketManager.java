@@ -3,6 +3,7 @@ package org.example.cyveplay.plugins.Market;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +25,7 @@ public class MarketManager implements Listener {
 
     private final JavaPlugin plugin;
     private final MoneyManager moneyManager;
-    private final Map<String, Inventory> playerShops = new HashMap<>(); // Speichert die Shops der Spieler
+    private final Map<UUID, Inventory> playerShops = new HashMap<>(); // Speichert die Shops der Spieler
     private final File shopFile;
     private final YamlConfiguration shopConfig;
 
@@ -49,7 +50,8 @@ public class MarketManager implements Listener {
         }
 
         String playerName = player.getName();
-        Inventory shopInventory = playerShops.getOrDefault(playerName, Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop"));
+        UUID playerUUID = player.getUniqueId();
+        Inventory shopInventory = playerShops.getOrDefault(playerUUID, Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop"));
 
         //Überprüfe, ob im Shop noch Platz ist
         if(!this.itemFitsShop(item, shopInventory)) {
@@ -69,10 +71,10 @@ public class MarketManager implements Listener {
 
         // Füge das Item dem Shop des Spielers hinzu
         shopInventory.addItem(item);
-        playerShops.put(playerName, shopInventory);
+        playerShops.put(playerUUID, shopInventory);
 
         // Speichere den Shop in der Datei
-        saveShop(playerName);
+        saveShop(playerUUID);
 
         player.sendMessage(ChatColor.GREEN + "Dein Item wurde erfolgreich zu deinem Shop hinzugefügt!");
     }
@@ -115,6 +117,8 @@ public class MarketManager implements Listener {
         if (inventory == null || !playerShops.containsValue(inventory)) {
             return; // Kein Shop-Inventar
         }
+        Player player = (Player) event.getWhoClicked();
+        UUID playerUUID = player.getUniqueId();
 
         event.setCancelled(true); // Keine Bewegung der Items im Shop erlauben
 
@@ -133,8 +137,8 @@ public class MarketManager implements Listener {
             moneyManager.removeMoney(buyer.getUniqueId(), price);
 
             String ownerName = ChatColor.stripColor(event.getView().getTitle().replace("'s Shop", ""));
-            Player owner = Bukkit.getPlayer(ownerName);
-            UUID ownerUUID = (owner != null) ? owner.getUniqueId() : UUID.fromString(shopConfig.getString(ownerName + ".uuid"));
+            OfflinePlayer owner = Bukkit.getOfflinePlayer(ownerName);
+            UUID ownerUUID = owner.getUniqueId();
 
             // Geld an den Besitzer geben
             moneyManager.addMoney(ownerUUID, price);
@@ -161,15 +165,17 @@ public class MarketManager implements Listener {
 
             // Entferne das Item aus dem Shop
             inventory.setItem(event.getSlot(), new ItemStack(Material.AIR));
-            saveShop(ownerName); // Speicher das Inventar des Besitzers nach dem Verkauf
+            saveShop(playerUUID); // Speicher das Inventar des Besitzers nach dem Verkauf
         } else {
             buyer.sendMessage(ChatColor.RED + "Du hast nicht genug Geld!");
         }
     }
 
     // Speichert den Shop eines Spielers in der Datei
-    public void saveShop(String playerName) {
-        Inventory inventory = playerShops.get(playerName);
+    public void saveShop(UUID playerUUID) {
+        String playerName = Bukkit.getPlayer(playerUUID).getName();
+        Inventory inventory = playerShops.get(playerUUID);
+
 
         // Überprüfen, ob das Inventar null ist
         if (inventory == null) {
@@ -177,14 +183,15 @@ public class MarketManager implements Listener {
             return; // Beende die Methode, wenn kein Inventar vorhanden ist
         }
 
-        shopConfig.set(playerName + ".items", null); // Altes Inventar löschen
+        shopConfig.set(playerUUID + ".items", null); // Altes Inventar löschen
 
         for (ItemStack item : inventory.getContents()) {
             if (item != null) {
-                shopConfig.set(playerName + ".items." + UUID.randomUUID(), item);
+                shopConfig.set(playerUUID + ".items." + UUID.randomUUID(), item);
             }
         }
-        shopConfig.set(playerName + ".uuid", Bukkit.getOfflinePlayer(playerName).getUniqueId().toString());
+        Player player = Bukkit.getPlayer(playerName);
+        shopConfig.set(player.getUniqueId() + ".playername", playerName);
 
         try {
             shopConfig.save(shopFile);
@@ -216,6 +223,7 @@ public class MarketManager implements Listener {
             if (item != null){
                 if (item.getItemMeta() == null || !item.getItemMeta().hasLore()) {
                     player.getInventory().addItem(item);
+                    item.setAmount(0);
                 }
             }
         }
@@ -224,28 +232,28 @@ public class MarketManager implements Listener {
 
     // Lädt den Shop eines Spielers aus der Datei
     private Inventory loadShop(String playerName) {
-        if (!shopConfig.contains(playerName + ".items")) {
-            return null; // Kein Shop vorhanden
-        }
+        UUID playerUUID = Bukkit.getOfflinePlayer(playerName).getUniqueId();
 
-        if (playerShops.containsKey(playerName)) {
-            Inventory shop = playerShops.get(playerName);
+        if (playerShops.containsKey(playerUUID)) {
+            Inventory shop = playerShops.get(playerUUID);
             System.out.println("Shop in HashMap gefunden!");
             return shop;
         } else {
             System.out.println("Shop nicht gefunden! wird generiert");
             Inventory shopInventory = Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop");
 
-            for (String key : shopConfig.getConfigurationSection(playerName + ".items").getKeys(false)) {
-                ItemStack item = shopConfig.getItemStack(playerName + ".items." + key);
-                shopInventory.addItem(item);
+            for (String key : shopConfig.getConfigurationSection(playerUUID + ".items").getKeys(false)) {
+                if (key != null) {
+                    ItemStack item = shopConfig.getItemStack(playerUUID + ".items." + key);
+                    shopInventory.addItem(item);
+                }
             }
 
             if (this.checkForAndRemoveIllegalItems(shopInventory)) {
                 System.out.println("Found Illegal Items in " + playerName + "'s Shop and removed them");
-                this.saveShop(playerName);
+                this.saveShop(playerUUID);
             }
-            playerShops.put(playerName, shopInventory);
+            playerShops.put(playerUUID, shopInventory);
             return shopInventory;
         }
     }

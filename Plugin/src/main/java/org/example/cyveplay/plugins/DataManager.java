@@ -44,7 +44,7 @@ public class DataManager {
 
     // Methode zum Abrufen des Geldbetrags eines Spielers
     public double loadMoney(UUID playerUUID) {
-        return moneyConfig.getDouble(playerUUID.toString(), 0.0); // 0.0 ist der Standardwert, falls nichts gefunden wird
+        return moneyConfig.getDouble(playerUUID.toString(), 100.0); // 0.0 ist der Standardwert, falls nichts gefunden wird
     }
 
     // Methode zum Speichern der Berechtigungen eines Spielers
