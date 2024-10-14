@@ -53,6 +53,15 @@ public class MarketManager implements Listener {
             return;
         }
 
+        String playerName = player.getName();
+        Inventory shopInventory = playerShops.getOrDefault(playerName, Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop"));
+
+        //Überprüfe, ob im Shop noch Platz ist
+        if(!this.itemFitsMarket(item, shopInventory)) {
+            player.sendMessage(ChatColor.RED + "Im Shop ist kein Platz mehr für dieses Item!");
+            return;
+        }
+
         // Setze die Preis-Lore
         ItemMeta meta = item.getItemMeta();
         List<String> lore = new ArrayList<>();
@@ -64,8 +73,6 @@ public class MarketManager implements Listener {
         player.getInventory().setItemInMainHand(null);
 
         // Füge das Item dem Shop des Spielers hinzu
-        String playerName = player.getName();
-        Inventory shopInventory = playerShops.getOrDefault(playerName, Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop"));
         shopInventory.addItem(item);
         playerShops.put(playerName, shopInventory);
 
@@ -73,6 +80,23 @@ public class MarketManager implements Listener {
         saveShop(playerName);
 
         player.sendMessage(ChatColor.GREEN + "Dein Item wurde erfolgreich zu deinem Shop hinzugefügt!");
+    }
+
+    //Überprüft, ob das Item in dem Markt passt
+    private boolean itemFitsMarket(ItemStack item, Inventory shopInventory) {
+        int spaceForItemStackType = 0;
+        for(int i = 0; i < shopInventory.getSize(); i++) {
+            ItemStack shopItem = shopInventory.getItem(i);
+            if(shopItem != null) {
+                Material shopItemMat = shopItem.getType();
+                if(shopItemMat == Material.AIR) {
+                    spaceForItemStackType += shopItem.getMaxStackSize();
+                } else if(shopItemMat == item.getType()) {
+                    spaceForItemStackType += shopItem.getMaxStackSize()-shopItem.getAmount();
+                }
+            } else spaceForItemStackType += item.getMaxStackSize();
+        }
+        return spaceForItemStackType >= item.getAmount();
     }
 
     // Öffnet den Shop eines anderen Spielers
@@ -138,7 +162,8 @@ public class MarketManager implements Listener {
             buyer.sendMessage(ChatColor.GREEN + "Du hast " + item.getType() + " für " + price + " Münzen gekauft!");
 
             // Entferne das Item aus dem Shop
-            inventory.remove(item);
+            //inventory.remove(item);
+            inventory.setItem(event.getSlot(), new ItemStack(Material.AIR));
             saveShop(ownerName); // Speicher das Inventar des Besitzers nach dem Verkauf
         } else {
             buyer.sendMessage(ChatColor.RED + "Du hast nicht genug Geld!");
