@@ -13,7 +13,7 @@ import org.example.cyveplay.plugins.Utils;
 public class AuctionManager implements Listener {
 
     public AuctionManager(Main main) {
-        this.main = main;
+         this.main = main;
     }
 
     public Main main;

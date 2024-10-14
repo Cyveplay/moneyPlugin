@@ -55,7 +55,7 @@ public class Auction {
                 ownerPlayer.getInventory().addItem(item);
             }
 
-        } else {
+        } else  {
             Utils.sendMessageToAllPlayers("Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da der besitzer nicht Online ist");
         }
     }

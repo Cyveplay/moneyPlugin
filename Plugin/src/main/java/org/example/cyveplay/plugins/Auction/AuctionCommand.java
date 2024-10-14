@@ -17,7 +17,7 @@ public class AuctionCommand implements CommandExecutor {
         this.main = main;
     }
 
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public boolean onCommand(CommandSender commandSender, Command command, String ss, String[] strings) {
         if(strings.length == 0 || !(commandSender instanceof Player)) {
             return false;
         }

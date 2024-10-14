@@ -29,7 +29,6 @@ public class Main extends JavaPlugin {
         permissionManager = new PermissionManager();
         enderchestManager = new EnderchestManager(this);
         auctionManager = new AuctionManager(this);
-
         // Lade die Daten
         dataManager = new DataManager(this);
         scoreboardManager = new ScoreboardManager(this);
