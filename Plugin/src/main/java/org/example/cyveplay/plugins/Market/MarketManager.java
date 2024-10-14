@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.example.cyveplay.plugins.Money.MoneyManager;
+import org.example.cyveplay.plugins.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,14 +32,7 @@ public class MarketManager implements Listener {
         this.moneyManager = moneyManager;
 
         // Datei laden/erstellen, die die Shops speichert
-        shopFile = new File(plugin.getDataFolder(), "shops.yml");
-        if (!shopFile.exists()) {
-            try {
-                shopFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        shopFile = Utils.createFileIfMissing(new File(plugin.getDataFolder(), "shops.yml"));
         shopConfig = YamlConfiguration.loadConfiguration(shopFile);
 
         // Event Registrierung
