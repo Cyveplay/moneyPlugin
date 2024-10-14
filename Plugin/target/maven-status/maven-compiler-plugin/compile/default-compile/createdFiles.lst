@@ -1,3 +1,5 @@
+org\example\cyveplay\plugins\Enderchest\EnderchestCommand.class
+org\example\cyveplay\plugins\Enderchest\EnderchestManager.class
 org\example\cyveplay\plugins\Main.class
 org\example\cyveplay\plugins\AntiReportSystem.class
 org\example\cyveplay\plugins\SellCommand.class

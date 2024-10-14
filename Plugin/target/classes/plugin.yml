@@ -18,3 +18,7 @@ commands:
   market:
     description: Manage the player market.
     usage: /market add [price] or /market open [player]
+  enderchest:
+    description: Open personal enderchest
+    usage: /enderchest
+    aliases: [ec]

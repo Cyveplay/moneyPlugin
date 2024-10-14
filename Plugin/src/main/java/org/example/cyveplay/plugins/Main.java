@@ -2,6 +2,7 @@ package org.example.cyveplay.plugins;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.example.cyveplay.plugins.Enderchest.EnderchestManager;
 import org.example.cyveplay.plugins.Permission.PermissionManager;
 
 import java.util.List;
@@ -14,23 +15,29 @@ public class Main extends JavaPlugin {
     private DataManager dataManager;
     private ScoreboardManager scoreboardManager;
     private org.example.cyveplay.plugins.Market.MarketManager marketManager;  // Neu hinzugefügt
+    private EnderchestManager enderchestManager;
 
     @Override
     public void onEnable() {
         // Initialisiere das MoneyManager-System
         moneyManager = new org.example.cyveplay.plugins.Money.MoneyManager();
         permissionManager = new PermissionManager();
+        enderchestManager = new EnderchestManager(this);
+
 
         // Lade die Daten
         dataManager = new DataManager(this);
         scoreboardManager = new ScoreboardManager(this);
         marketManager = new org.example.cyveplay.plugins.Market.MarketManager(this, moneyManager);  // Neu hinzugefügt
 
+
         // Lade die Daten für alle Spieler, auch die, die nicht online sind
         for (UUID playerUUID : dataManager.getAllPlayerUUIDs()) {  // Hier rufst du die UUIDs aus der Datei ab
             // Lade das Geld für den Spieler
             double money = dataManager.loadMoney(playerUUID);
             moneyManager.setMoney(playerUUID, money);
+
+
 
             // Lade und wende die Berechtigungen an
             List<String> permissions = dataManager.loadPermissions(playerUUID);
@@ -46,6 +53,7 @@ public class Main extends JavaPlugin {
         // Event-Registrierung
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new AntiReportSystem(), this);
+        getServer().getPluginManager().registerEvents(new EnderchestManager(this),this);
 
         // Befehle und TabCompleter registrieren
         this.getCommand("money").setExecutor(new org.example.cyveplay.plugins.Money.MoneyCommand(moneyManager, permissionManager));
@@ -55,10 +63,9 @@ public class Main extends JavaPlugin {
         this.getCommand("permission").setExecutor(new org.example.cyveplay.plugins.Permission.PermissionCommand(permissionManager));
         this.getCommand("permission").setTabCompleter(new org.example.cyveplay.plugins.Permission.PermissionTabCompleter(permissionManager));
         this.getCommand("sell").setExecutor(new SellCommand(moneyManager));
-
-        // Hier die Registrierung des Market-Befehls und TabCompleters
         this.getCommand("market").setExecutor(new org.example.cyveplay.plugins.Market.MarketCommand(marketManager));
         this.getCommand("market").setTabCompleter(new org.example.cyveplay.plugins.Market.MarketTabCompleter(marketManager));
+        this.getCommand("enderchest").setExecutor(new org.example.cyveplay.plugins.Enderchest.EnderchestCommand(enderchestManager));
 
         // Starte die regelmäßige Scoreboard-Aktualisierung
         scoreboardManager.startScoreboardUpdateTask();
@@ -73,8 +80,6 @@ public class Main extends JavaPlugin {
             marketManager.saveShop(playerUUID.toString());
         }
 
-        // Speichere den Marktstatus
-          // Neu hinzugefügt, um Shops zu speichern
     }
 
     public org.example.cyveplay.plugins.Money.MoneyManager getMoneyManager() {
