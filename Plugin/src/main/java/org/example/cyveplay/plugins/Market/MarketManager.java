@@ -99,9 +99,15 @@ public class MarketManager implements Listener {
 
         if (shopInventory == null) {
             viewer.sendMessage(ChatColor.RED + "Dieser Spieler hat keinen Shop oder existiert nicht.");
+        } else if(isShopAlreadyAccessed(shopInventory)) {
+            viewer.sendMessage(ChatColor.RED + "Es kann nur ein Spieler den Shop gleichzeitig benutzten (Sorry waren zu faul das zu fixen)");
         } else {
             viewer.openInventory(shopInventory);
         }
+    }
+
+    public boolean isShopAlreadyAccessed(Inventory shopInventory) {
+        return shopInventory.getViewers().size() <= 1;
     }
 
     // Event, um den Kauf von Items zu handhaben
