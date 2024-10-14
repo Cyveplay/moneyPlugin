@@ -12,8 +12,6 @@ public class AntiReportSystem implements Listener {
         String Message = event.getMessage();
         String PlayerName = event.getPlayer().getName();
         event.setCancelled(true);
-        for (Player player : Bukkit.getOnlinePlayers()){
-            player.sendMessage("<" + PlayerName + "> " + Message);
-        }
+        Utils.sendMessageToAllPlayers("<" + PlayerName + "> " + Message);
     }
 }
