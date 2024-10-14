@@ -1,5 +1,8 @@
 package org.example.cyveplay.plugins;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -22,5 +25,12 @@ public class Utils {
             }
         }
         return file;
+    }
+
+    //Sendet eine nachricht an alle Spieler
+    public static void sendMessageToAllPlayers(String string) {
+        for (Player player : Bukkit.getOnlinePlayers()){
+            player.sendMessage(string);
+        }
     }
 }
