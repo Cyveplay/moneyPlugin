@@ -232,20 +232,28 @@ public class MarketManager implements Listener {
             return null; // Kein Shop vorhanden
         }
 
-        Inventory shopInventory = Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop");
+        if (playerShops.containsKey(playerName)) {
+            Inventory shop = playerShops.get(playerName);
+            System.out.println("Shop in HashMap gefunden!");
+            return shop;
+        } else {
+            System.out.println("Shop nicht gefunden! wird generiert");
+            Inventory shopInventory = Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop");
 
-        for (String key : shopConfig.getConfigurationSection(playerName + ".items").getKeys(false)) {
-            ItemStack item = shopConfig.getItemStack(playerName + ".items." + key);
-            shopInventory.addItem(item);
-        }
+            for (String key : shopConfig.getConfigurationSection(playerName + ".items").getKeys(false)) {
+                ItemStack item = shopConfig.getItemStack(playerName + ".items." + key);
+                shopInventory.addItem(item);
+            }
 
-        if(this.checkForAndRemoveIllegalItems(shopInventory)) {
-            System.out.println("Found Illegal Items in "+playerName+"'s Shop and removed them");
-            this.saveShop(playerName);
+            if (this.checkForAndRemoveIllegalItems(shopInventory)) {
+                System.out.println("Found Illegal Items in " + playerName + "'s Shop and removed them");
+                this.saveShop(playerName);
+            }
+            playerShops.put(playerName, shopInventory);
+            return shopInventory;
         }
-        playerShops.put(playerName, shopInventory);
-        return shopInventory;
     }
+
     @EventHandler
     public void onClose(InventoryCloseEvent event){
         String playerName = event.getPlayer().getName();
