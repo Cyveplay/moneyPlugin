@@ -41,6 +41,9 @@ public class MoneyTabCompleter implements TabCompleter {
                 if ("remove".startsWith(args[0].toLowerCase())) {
                     suggestions.add("remove");
                 }
+                if ("set".startsWith(args[0].toLowerCase())) {
+                    suggestions.add("set");
+                }
             }
         }
 
@@ -51,6 +54,13 @@ public class MoneyTabCompleter implements TabCompleter {
 
         // Vorschläge für das zweite Argument bei "pay" (Online-Spieler)
         if (args.length == 2 && args[0].equalsIgnoreCase("pay")) {
+            for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
+                if (targetPlayer.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                    suggestions.add(targetPlayer.getName());
+                }
+            }
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("set")) {
             for (Player targetPlayer : Bukkit.getOnlinePlayers()) {
                 if (targetPlayer.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
                     suggestions.add(targetPlayer.getName());

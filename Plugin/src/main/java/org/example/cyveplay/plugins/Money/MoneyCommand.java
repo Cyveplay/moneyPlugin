@@ -60,11 +60,17 @@ public class MoneyCommand implements CommandExecutor {
                     }
                     return true;
                 }
-                if (args.length == 2 && args[0].equalsIgnoreCase("set")) {
+                if (args.length == 3 && args[0].equalsIgnoreCase("set")) {
+                    String playerName = args[1];
+                    Player player1 = Bukkit.getPlayer(playerName);
+                    if (player1 == null){
+                        sender.sendMessage(ChatColor.RED+"Spieler nicht Gefunden!");
+                    }
+                    UUID targetUUID = player1.getUniqueId();
                     try {
-                        double amount = Double.parseDouble(args[1]);
-                        moneyManager.setMoney(playerUUID, amount);
-                        player.sendMessage(amount + " Münzen wurden von deinem Konto abgezogen.");
+                        double amount = Double.parseDouble(args[2]);
+
+                        moneyManager.setMoney(targetUUID, amount);
                     } catch (NumberFormatException e) {
                         player.sendMessage(ChatColor.RED + "Bitte gib einen gültigen Betrag an.");
                     }

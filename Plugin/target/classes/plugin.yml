@@ -22,3 +22,6 @@ commands:
     description: Open personal enderchest
     usage: /enderchest
     aliases: [ec]
+  auction:
+    description: Start Auctions
+    usage: /auction start [price] or /auction stop or /auction bid [player] [price]
