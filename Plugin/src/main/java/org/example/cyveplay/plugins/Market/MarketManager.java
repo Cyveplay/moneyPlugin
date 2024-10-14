@@ -106,6 +106,7 @@ public class MarketManager implements Listener {
         }
     }
 
+    //Überprüft ob der Shop schon benutzt wird
     public boolean isShopAlreadyAccessed(Inventory shopInventory) {
         return shopInventory.getViewers().size() > 1;
     }
