@@ -3,6 +3,7 @@ package org.example.cyveplay.plugins;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.example.cyveplay.plugins.Enderchest.EnderchestManager;
+import org.example.cyveplay.plugins.Market.MarketManager;
 import org.example.cyveplay.plugins.Permission.PermissionManager;
 
 import java.util.List;
@@ -55,6 +56,9 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AntiReportSystem(), this);
         getServer().getPluginManager().registerEvents(new EnderchestManager(this),this);
 
+
+        getServer().getPluginManager().registerEvents(new MarketManager(this,moneyManager),this);
+
         // Befehle und TabCompleter registrieren
         this.getCommand("money").setExecutor(new org.example.cyveplay.plugins.Money.MoneyCommand(moneyManager, permissionManager));
         this.getCommand("money").setTabCompleter(new org.example.cyveplay.plugins.Money.MoneyTabCompleter(permissionManager));
@@ -66,6 +70,8 @@ public class Main extends JavaPlugin {
         this.getCommand("market").setExecutor(new org.example.cyveplay.plugins.Market.MarketCommand(marketManager));
         this.getCommand("market").setTabCompleter(new org.example.cyveplay.plugins.Market.MarketTabCompleter(marketManager));
         this.getCommand("enderchest").setExecutor(new org.example.cyveplay.plugins.Enderchest.EnderchestCommand(enderchestManager));
+
+
 
         // Starte die regelmäßige Scoreboard-Aktualisierung
         scoreboardManager.startScoreboardUpdateTask();
