@@ -93,6 +93,7 @@ public class MarketManager implements Listener {
         return spaceForItemStackType >= item.getAmount();
     }
 
+
     // Öffnet den Shop eines anderen Spielers
     public void openShop(Player viewer, String ownerName) {
         Inventory shopInventory = loadShop(ownerName);
