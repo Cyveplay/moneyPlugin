@@ -1,4 +1,4 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Trade;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -7,6 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.ChatColor;
+import org.example.cyveplay.plugins.Money.MoneyManager;
+
 
 import java.util.HashMap;
 import java.util.UUID;

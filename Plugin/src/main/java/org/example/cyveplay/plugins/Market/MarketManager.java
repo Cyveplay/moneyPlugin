@@ -1,4 +1,4 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Market;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.example.cyveplay.plugins.Money.MoneyManager;
 
 import java.io.File;
 import java.io.IOException;

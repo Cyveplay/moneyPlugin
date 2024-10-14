@@ -1,10 +1,11 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Money;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.example.cyveplay.plugins.Permission.PermissionManager;
 
 import java.util.ArrayList;
 import java.util.List;

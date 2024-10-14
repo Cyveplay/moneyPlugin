@@ -1,4 +1,4 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Permission;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

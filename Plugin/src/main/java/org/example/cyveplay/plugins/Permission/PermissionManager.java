@@ -1,4 +1,4 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Permission;
 
 import java.lang.reflect.Array;
 import java.util.*;

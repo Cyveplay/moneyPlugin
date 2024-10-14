@@ -1,4 +1,4 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Money;
 
 import java.util.HashMap;
 import java.util.Set;

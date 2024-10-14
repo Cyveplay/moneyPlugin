@@ -1,10 +1,10 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Market;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.example.cyveplay.plugins.MarketManager;
+import org.example.cyveplay.plugins.Market.MarketManager;
 
 import java.util.ArrayList;
 import java.util.List;

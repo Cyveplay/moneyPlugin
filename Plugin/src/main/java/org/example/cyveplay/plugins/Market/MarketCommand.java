@@ -1,11 +1,11 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Market;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.example.cyveplay.plugins.MarketManager;
+import org.example.cyveplay.plugins.Market.MarketManager;
 
 public class MarketCommand implements CommandExecutor {
 

@@ -1,4 +1,4 @@
-package org.example.cyveplay.plugins;
+package org.example.cyveplay.plugins.Trade;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
