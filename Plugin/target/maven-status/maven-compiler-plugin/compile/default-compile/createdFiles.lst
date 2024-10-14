@@ -13,6 +13,7 @@ org\example\cyveplay\plugins\Money\MoneyTabCompleter.class
 org\example\cyveplay\plugins\Trade\TradeCommand.class
 org\example\cyveplay\plugins\PlayerJoinListener.class
 org\example\cyveplay\plugins\ScoreboardManager$1.class
+org\example\cyveplay\plugins\Utils.class
 org\example\cyveplay\plugins\Money\MoneyManager.class
 org\example\cyveplay\plugins\Permission\PermissionTabCompleter.class
 org\example\cyveplay\plugins\Permission\PermissionCommand.class

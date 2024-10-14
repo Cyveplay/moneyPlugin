@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -203,6 +204,19 @@ public class MarketManager implements Listener {
         }
         return needsToSave;
     }
+    public void returnIllegalItemsBackToInventory(Inventory inventory, Player player){
+        if (inventory == null || !playerShops.containsValue(inventory)) {
+            return;
+        }
+        for (int i = 0; i < inventory.getSize();i++){
+            ItemStack item = inventory.getItem(i);
+            if (item != null){
+                if (item.getItemMeta() == null || !item.getItemMeta().hasLore()) {
+                    player.getInventory().addItem(item);
+                }
+            }
+        }
+    }
 
 
     // Lädt den Shop eines Spielers aus der Datei
@@ -222,8 +236,13 @@ public class MarketManager implements Listener {
             System.out.println("Found Illegal Items in "+playerName+"'s Shop and removed them");
             this.saveShop(playerName);
         }
-
         playerShops.put(playerName, shopInventory);
         return shopInventory;
+    }
+    @EventHandler
+    public void onClose(InventoryCloseEvent event){
+        String playerName = event.getPlayer().getName();
+        Player player = Bukkit.getPlayer(playerName);
+        returnIllegalItemsBackToInventory(event.getInventory(), player);
     }
 }

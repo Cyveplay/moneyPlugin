@@ -32,10 +32,18 @@ public class MarketCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("add") && args.length == 2) {
             try {
                 double price = Double.parseDouble(args[1]);
+
+                if (price < 1){
+                    player.sendMessage(ChatColor.RED + "Der Preis muss minedestens 1 betragen!");
+                    return true;
+                }
+
                 marketManager.addItemToShop(player, price);
             } catch (NumberFormatException e) {
                 player.sendMessage(ChatColor.RED + "Ungültiger Preis! Bitte gebe eine gültige Zahl an.");
             }
+
+
             return true;
         }
 
