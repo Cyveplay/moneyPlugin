@@ -2,6 +2,8 @@ package org.example.cyveplay.plugins;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.example.cyveplay.plugins.Auction.AuctionCommand;
+import org.example.cyveplay.plugins.Auction.AuctionManager;
 import org.example.cyveplay.plugins.Enderchest.EnderchestManager;
 import org.example.cyveplay.plugins.Market.MarketManager;
 import org.example.cyveplay.plugins.Permission.PermissionManager;
@@ -18,14 +20,15 @@ public class Main extends JavaPlugin {
     private org.example.cyveplay.plugins.Market.MarketManager marketManager;  // Neu hinzugefügt
     private EnderchestManager enderchestManager;
 
+    private AuctionManager auctionManager;
+
     @Override
     public void onEnable() {
         // Initialisiere das MoneyManager-System
         moneyManager = new org.example.cyveplay.plugins.Money.MoneyManager();
         permissionManager = new PermissionManager();
         enderchestManager = new EnderchestManager(this);
-
-
+        auctionManager = new AuctionManager(this);
         // Lade die Daten
         dataManager = new DataManager(this);
         scoreboardManager = new ScoreboardManager(this);
@@ -69,6 +72,7 @@ public class Main extends JavaPlugin {
         this.getCommand("market").setExecutor(new org.example.cyveplay.plugins.Market.MarketCommand(marketManager));
         this.getCommand("market").setTabCompleter(new org.example.cyveplay.plugins.Market.MarketTabCompleter(marketManager));
         this.getCommand("enderchest").setExecutor(new org.example.cyveplay.plugins.Enderchest.EnderchestCommand(enderchestManager));
+        this.getCommand("auction").setExecutor(new AuctionCommand(this));
 
         enderchestManager.loadAllEnderchests(dataManager.getAllPlayerUUIDs());
 
@@ -101,4 +105,6 @@ public class Main extends JavaPlugin {
     public org.example.cyveplay.plugins.Market.MarketManager getMarketManager() {
         return marketManager;
     }
+
+    public AuctionManager getAuctionManager() { return  auctionManager; }
 }
