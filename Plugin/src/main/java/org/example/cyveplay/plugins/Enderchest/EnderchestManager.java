@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.example.cyveplay.plugins.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -104,15 +105,7 @@ public class EnderchestManager implements Listener {
 
 
     private void createEnderChestFile() {
-        enderchestFile = new File(plugin.getDataFolder(), "enderchests.yml");
-        if (!enderchestFile.exists()) {
-            try {
-                enderchestFile.createNewFile();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        }
-
+        enderchestFile = Utils.createFileIfMissing(new File(plugin.getDataFolder(), "enderchests.yml"));
         enderchestConfig = YamlConfiguration.loadConfiguration(enderchestFile);
     }
 
