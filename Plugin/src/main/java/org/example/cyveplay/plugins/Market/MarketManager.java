@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.example.cyveplay.plugins.Money.MoneyManager;
+import org.example.cyveplay.plugins.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,22 +24,15 @@ public class MarketManager implements Listener {
     private final JavaPlugin plugin;
     private final MoneyManager moneyManager;
     private final Map<String, Inventory> playerShops = new HashMap<>(); // Speichert die Shops der Spieler
-    private File shopFile;
-    private YamlConfiguration shopConfig;
+    private final File shopFile;
+    private final YamlConfiguration shopConfig;
 
     public MarketManager(JavaPlugin plugin, MoneyManager moneyManager) {
         this.plugin = plugin;
         this.moneyManager = moneyManager;
 
         // Datei laden/erstellen, die die Shops speichert
-        shopFile = new File(plugin.getDataFolder(), "shops.yml");
-        if (!shopFile.exists()) {
-            try {
-                shopFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        shopFile = Utils.createFileIfMissing(new File(plugin.getDataFolder(), "shops.yml"));
         shopConfig = YamlConfiguration.loadConfiguration(shopFile);
 
         // Event Registrierung
@@ -53,6 +47,15 @@ public class MarketManager implements Listener {
             return;
         }
 
+        String playerName = player.getName();
+        Inventory shopInventory = playerShops.getOrDefault(playerName, Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop"));
+
+        //Überprüfe, ob im Shop noch Platz ist
+        if(!this.itemFitsShop(item, shopInventory)) {
+            player.sendMessage(ChatColor.RED + "Im Shop ist kein Platz mehr für dieses Item!");
+            return;
+        }
+
         // Setze die Preis-Lore
         ItemMeta meta = item.getItemMeta();
         List<String> lore = new ArrayList<>();
@@ -64,8 +67,6 @@ public class MarketManager implements Listener {
         player.getInventory().setItemInMainHand(null);
 
         // Füge das Item dem Shop des Spielers hinzu
-        String playerName = player.getName();
-        Inventory shopInventory = playerShops.getOrDefault(playerName, Bukkit.createInventory(null, 27, ChatColor.GREEN + playerName + "'s Shop"));
         shopInventory.addItem(item);
         playerShops.put(playerName, shopInventory);
 
@@ -73,6 +74,23 @@ public class MarketManager implements Listener {
         saveShop(playerName);
 
         player.sendMessage(ChatColor.GREEN + "Dein Item wurde erfolgreich zu deinem Shop hinzugefügt!");
+    }
+
+    //Überprüft, ob das Item in den Shop passt
+    private boolean itemFitsShop(ItemStack item, Inventory shopInventory) {
+        int spaceForItemStackType = 0;
+        for(int i = 0; i < shopInventory.getSize(); i++) {
+            ItemStack shopItem = shopInventory.getItem(i);
+            if(shopItem != null) {
+                Material shopItemMat = shopItem.getType();
+                if(shopItemMat == Material.AIR) {
+                    spaceForItemStackType += shopItem.getMaxStackSize();
+                } else if(shopItemMat == item.getType()) {
+                    spaceForItemStackType += shopItem.getMaxStackSize()-shopItem.getAmount();
+                }
+            } else spaceForItemStackType += item.getMaxStackSize();
+        }
+        return spaceForItemStackType >= item.getAmount();
     }
 
     // Öffnet den Shop eines anderen Spielers
@@ -138,7 +156,7 @@ public class MarketManager implements Listener {
             buyer.sendMessage(ChatColor.GREEN + "Du hast " + item.getType() + " für " + price + " Münzen gekauft!");
 
             // Entferne das Item aus dem Shop
-            inventory.remove(item);
+            inventory.setItem(event.getSlot(), new ItemStack(Material.AIR));
             saveShop(ownerName); // Speicher das Inventar des Besitzers nach dem Verkauf
         } else {
             buyer.sendMessage(ChatColor.RED + "Du hast nicht genug Geld!");
@@ -171,6 +189,21 @@ public class MarketManager implements Listener {
         }
     }
 
+    // Überprüft ob, der Shop ein Item enthält was da nicht sein sollte
+    private boolean checkForAndRemoveIllegalItems(Inventory shopInventory) {
+        boolean needsToSave = false;
+        for(int i = 0; i < shopInventory.getSize(); i++) {
+            ItemStack item = shopInventory.getItem(i);
+            if(item != null) {
+                if (item.getItemMeta() == null || !item.getItemMeta().hasLore()) {
+                    shopInventory.setItem(i, new ItemStack(Material.AIR));
+                    needsToSave = true;
+                }
+            }
+        }
+        return needsToSave;
+    }
+
 
     // Lädt den Shop eines Spielers aus der Datei
     private Inventory loadShop(String playerName) {
@@ -183,6 +216,11 @@ public class MarketManager implements Listener {
         for (String key : shopConfig.getConfigurationSection(playerName + ".items").getKeys(false)) {
             ItemStack item = shopConfig.getItemStack(playerName + ".items." + key);
             shopInventory.addItem(item);
+        }
+
+        if(this.checkForAndRemoveIllegalItems(shopInventory)) {
+            System.out.println("Found Illegal Items in "+playerName+"'s Shop and removed them");
+            this.saveShop(playerName);
         }
 
         playerShops.put(playerName, shopInventory);

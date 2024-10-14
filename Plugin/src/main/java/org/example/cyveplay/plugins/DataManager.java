@@ -28,25 +28,11 @@ public class DataManager {
     // Methode zum Laden oder Erstellen der YAML-Dateien
     public void loadFiles() {
         // Geld-Datei laden oder erstellen
-        moneyFile = new File(plugin.getDataFolder(), "money.yml");
-        if (!moneyFile.exists()) {
-            try {
-                moneyFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        moneyFile = Utils.createFileIfMissing(new File(plugin.getDataFolder(), "money.yml"));
         moneyConfig = YamlConfiguration.loadConfiguration(moneyFile);
 
         // Berechtigungen-Datei laden oder erstellen
-        permissionFile = new File(plugin.getDataFolder(), "permissions.yml");
-        if (!permissionFile.exists()) {
-            try {
-                permissionFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        permissionFile = Utils.createFileIfMissing(new File(plugin.getDataFolder(), "permissions.yml"));
         permissionConfig = YamlConfiguration.loadConfiguration(permissionFile);
     }
 
