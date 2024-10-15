@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.example.cyveplay.plugins.Auction.AuctionCommand;
 import org.example.cyveplay.plugins.Auction.AuctionManager;
 import org.example.cyveplay.plugins.Enderchest.EnderchestManager;
+import org.example.cyveplay.plugins.Job.*;
 import org.example.cyveplay.plugins.Market.MarketManager;
 import org.example.cyveplay.plugins.Permission.PermissionManager;
 
@@ -19,6 +20,8 @@ public class Main extends JavaPlugin {
     private ScoreboardManager scoreboardManager;
     private org.example.cyveplay.plugins.Market.MarketManager marketManager;  // Neu hinzugefügt
     private EnderchestManager enderchestManager;
+    private JobManager jobManager;
+    private PlayerJobManager playerJobManager;
 
     private AuctionManager auctionManager;
 
@@ -33,14 +36,21 @@ public class Main extends JavaPlugin {
         dataManager = new DataManager(this);
         scoreboardManager = new ScoreboardManager(this);
         marketManager = new org.example.cyveplay.plugins.Market.MarketManager(this, moneyManager);  // Neu hinzugefügt
+        jobManager = new JobManager();
+        playerJobManager = new PlayerJobManager();
 
+
+        // JobEvents Listener für Fortschritt und andere Job-Events registrieren
+        getServer().getPluginManager().registerEvents(new JobAdvances(playerJobManager), this);
+
+        // Command für Jobs registrieren
+        this.getCommand("job").setExecutor(new PlayerJobCommand(jobManager, playerJobManager));
 
         // Lade die Daten für alle Spieler, auch die, die nicht online sind
         for (UUID playerUUID : dataManager.getAllPlayerUUIDs()) {  // Hier rufst du die UUIDs aus der Datei ab
             // Lade das Geld für den Spieler
             double money = dataManager.loadMoney(playerUUID);
             moneyManager.setMoney(playerUUID, money);
-
 
             // Lade und wende die Berechtigungen an
             List<String> permissions = dataManager.loadPermissions(playerUUID);
@@ -56,10 +66,9 @@ public class Main extends JavaPlugin {
         // Event-Registrierung
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new AntiReportSystem(), this);
-        getServer().getPluginManager().registerEvents(new EnderchestManager(this),this);
+        getServer().getPluginManager().registerEvents(new EnderchestManager(this), this);
 
-
-        getServer().getPluginManager().registerEvents(new MarketManager(this,moneyManager),this);
+        getServer().getPluginManager().registerEvents(new MarketManager(this, moneyManager), this);
 
         // Befehle und TabCompleter registrieren
         this.getCommand("money").setExecutor(new org.example.cyveplay.plugins.Money.MoneyCommand(moneyManager, permissionManager));
@@ -106,5 +115,7 @@ public class Main extends JavaPlugin {
         return marketManager;
     }
 
-    public AuctionManager getAuctionManager() { return  auctionManager; }
+    public AuctionManager getAuctionManager() {
+        return auctionManager;
+    }
 }

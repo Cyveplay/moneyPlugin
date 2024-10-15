@@ -25,3 +25,6 @@ commands:
   auction:
     description: Start Auctions
     usage: /auction start [price] or /auction stop or /auction bid [player] [price]
+  job:
+    description: Manages your Job
+    usage: /job [annehmen/fortschritt]
