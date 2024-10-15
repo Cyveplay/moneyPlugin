@@ -33,4 +33,18 @@ public class Utils {
             player.sendMessage(string);
         }
     }
+
+    public static long ticksToMinutes(long ticks) {
+        return ticks / 20 / 60;
+    }
+    public static long ticksToSeconds(long ticks) {
+        return ticks / 20;
+    }
+    public static String addZero(long l, long length) {
+        String s = l+"";
+        while(s.length() < length) {
+            s = "0"+s;
+        }
+        return s;
+    }
 }

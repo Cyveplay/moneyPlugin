@@ -24,4 +24,4 @@ commands:
     aliases: [ec]
   auction:
     description: Start Auctions
-    usage: /auction start [price] or /auction stop or /auction bid [player] [price]
+    usage: /auction start [start_price] [duration], /auction stop, /auction bid [auction_owner] [bid_price] or /auction info [auction_owner]
