@@ -1,9 +1,13 @@
 package org.example.cyveplay.plugins;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.example.cyveplay.plugins.Auction.AuctionCommand;
 import org.example.cyveplay.plugins.Auction.AuctionManager;
+import org.example.cyveplay.plugins.Casino.CasinoManager;
 import org.example.cyveplay.plugins.Enderchest.EnderchestManager;
 import org.example.cyveplay.plugins.Job.*;
 import org.example.cyveplay.plugins.Market.MarketManager;
@@ -22,12 +26,12 @@ public class Main extends JavaPlugin {
     private EnderchestManager enderchestManager;
     private JobManager jobManager;
     private PlayerJobManager playerJobManager;
+    private CasinoManager casinoManager;
 
     private AuctionManager auctionManager;
 
     @Override
     public void onEnable() {
-        // Initialisiere das MoneyManager-System
         moneyManager = new org.example.cyveplay.plugins.Money.MoneyManager();
         permissionManager = new PermissionManager();
         enderchestManager = new EnderchestManager(this);
@@ -38,6 +42,13 @@ public class Main extends JavaPlugin {
         marketManager = new org.example.cyveplay.plugins.Market.MarketManager(this, moneyManager);  // Neu hinzugefügt
         jobManager = new JobManager();
         playerJobManager = new PlayerJobManager();
+        casinoManager = new CasinoManager(this, moneyManager);
+        Bukkit.getPluginManager().registerEvents(new Listener() {
+            @org.bukkit.event.EventHandler
+            public void onInventoryClick(InventoryClickEvent event) {
+                casinoManager.handleInventoryClick(event);
+            }
+        }, this);
 
 
         // JobEvents Listener für Fortschritt und andere Job-Events registrieren
@@ -82,6 +93,7 @@ public class Main extends JavaPlugin {
         this.getCommand("market").setTabCompleter(new org.example.cyveplay.plugins.Market.MarketTabCompleter(marketManager));
         this.getCommand("enderchest").setExecutor(new org.example.cyveplay.plugins.Enderchest.EnderchestCommand(enderchestManager));
         this.getCommand("auction").setExecutor(new AuctionCommand(this));
+        this.getCommand("gambling").setExecutor(new org.example.cyveplay.plugins.Casino.CasinoCommand(casinoManager));
 
         enderchestManager.loadAllEnderchests(dataManager.getAllPlayerUUIDs());
 

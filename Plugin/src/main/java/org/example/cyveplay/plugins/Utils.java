@@ -13,19 +13,30 @@ public class Utils {
 
     //Erstellt die angegebene datei, wenn sie noch nicht existiert
     public static File createFileIfMissing(File file) {
-        if(!file.exists()) {
+        if (!file.exists()) {
             try {
-                if(file.createNewFile()) {
-                    System.out.println("Created '"+file.getName()+"'");
+                File parent = file.getParentFile();
+                if (parent != null && !parent.exists()) {
+                    if (parent.mkdirs()) {
+                        System.out.println("Created parent directories for '" + file.getName() + "'");
+                    } else {
+                        System.out.println("Could not create parent directories for '" + file.getName() + "'");
+                    }
+                }
+
+                if (file.createNewFile()) {
+                    System.out.println("Created '" + file.getName() + "'");
                 } else {
-                    System.out.println("Could not create '"+file.getName()+"'");
+                    System.out.println("Could not create '" + file.getName() + "'");
                 }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                System.err.println("Error while creating file '" + file.getName() + "': " + e.getMessage());
+                e.printStackTrace();
             }
         }
         return file;
     }
+
 
     //Sendet eine nachricht an alle Spieler
     public static void sendMessageToAllPlayers(String string) {

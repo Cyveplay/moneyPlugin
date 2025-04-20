@@ -17,12 +17,10 @@ public class MarketCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Dieser Befehl kann nur von einem Spieler ausgeführt werden.");
             return true;
         }
-
-        Player player = (Player) sender;
 
         if (args.length == 0) {
             player.sendMessage(ChatColor.RED + "Verwende /market add [price] oder /market open [playername]");

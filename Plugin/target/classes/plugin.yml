@@ -28,3 +28,6 @@ commands:
   job:
     description: Manages your Job
     usage: /job [annehmen/fortschritt]
+  gambling:
+    description: Open the Slot machine
+    usage: /gambling

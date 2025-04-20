@@ -10,7 +10,7 @@ public class MoneyManager {
     private HashMap<UUID, Double> playerBalances = new HashMap<>();
 
     // Setzt den Standardwert für Geld (z.B. 100)
-    private final double DEFAULT_MONEY = 100.0;
+    private final double DEFAULT_MONEY = 1000.0;
 
     // Gibt das Geld eines Spielers zurück oder den Standardwert, wenn der Spieler noch keinen Eintrag hat
     public double getMoney(UUID playerUUID) {
@@ -47,5 +47,13 @@ public class MoneyManager {
     }
     public Set<UUID> getAllPlayerUUIDs() {
         return playerBalances.keySet(); // Gibt das Set aller Spieler-UUIDs zurück
+    }
+
+    public boolean hasEnoughMoney(UUID UUID, int value) {
+        if (value > getMoney(UUID)){
+            return false;
+        }else{
+            return true;
+        }
     }
 }
