@@ -17,7 +17,7 @@ public class AuctionManager implements Listener {
     }
 
     public Main main;
-    public HashMap<UUID, Auction> activeAuctions = new HashMap();
+    public HashMap<UUID, Auction> activeAuctions = new HashMap<>();
 
     public void startAuction(UUID uuid, Auction auction) {
         if(activeAuctions.get(uuid) != null) {

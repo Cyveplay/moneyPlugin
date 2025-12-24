@@ -42,7 +42,7 @@ public class MoneyManager {
             playerBalances.put(playerUUID, senderBalance - amount);
             playerBalances.put(receiverUUID, receiverBalance + amount);
         } else {
-            System.out.println("Nicht genug Guthaben für diese Transaktion.");
+            System.out.println("Nicht genug Guthaben für diese Operation.");
         }
     }
     public Set<UUID> getAllPlayerUUIDs() {
@@ -50,7 +50,7 @@ public class MoneyManager {
     }
 
     public boolean hasEnoughMoney(UUID UUID, int value) {
-        if (value > getMoney(UUID)){
+        if (value >= getMoney(UUID)){
             return false;
         }else{
             return true;

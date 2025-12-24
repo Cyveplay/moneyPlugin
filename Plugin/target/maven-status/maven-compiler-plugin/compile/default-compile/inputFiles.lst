@@ -1,12 +1,10 @@
-C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Job\Job.java
-C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Job\PlayerJobManager.java
+C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Bounty\BountyManager.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Market\MarketTabCompleter.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Trade\TradeTabCompleter.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Money\MoneyTabCompleter.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\SellCommand.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Market\MarketManager.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Casino\CasinoManager.java
-C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Job\JobAdvances.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\PlayerJoinListener.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Trade\TradeRequest.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Permission\PermissionCommand.java
@@ -19,7 +17,6 @@ C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\pl
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Auction\AuctionCommand.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\ScoreboardManager.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Enderchest\EnderchestManager.java
-C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Job\JobManager.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Main.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\DataManager.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Money\MoneyCommand.java
@@ -28,5 +25,4 @@ C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\pl
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Casino\CasinoCommand.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Market\MarketCommand.java
 C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Utils.java
-C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Job\PlayerJob.java
-C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Job\PlayerJobCommand.java
+C:\Users\Marley\Desktop\moneyPlugin\Plugin\src\main\java\org\example\cyveplay\plugins\Bounty\BountyCommand.java

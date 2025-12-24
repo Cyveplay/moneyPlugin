@@ -31,3 +31,7 @@ commands:
   gambling:
     description: Open the Slot machine
     usage: /gambling
+  bounty:
+    description: setze ein Kopfgeld auf einen Spieler
+    usage: /bounty [Spielername] [Betrag]
+    aliases: [Kopfgeld]

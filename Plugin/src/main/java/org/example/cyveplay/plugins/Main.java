@@ -7,9 +7,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.example.cyveplay.plugins.Auction.AuctionCommand;
 import org.example.cyveplay.plugins.Auction.AuctionManager;
+import org.example.cyveplay.plugins.Bounty.BountyCommand;
+import org.example.cyveplay.plugins.Bounty.BountyManager;
 import org.example.cyveplay.plugins.Casino.CasinoManager;
 import org.example.cyveplay.plugins.Enderchest.EnderchestManager;
-import org.example.cyveplay.plugins.Job.*;
 import org.example.cyveplay.plugins.Market.MarketManager;
 import org.example.cyveplay.plugins.Permission.PermissionManager;
 
@@ -24,9 +25,8 @@ public class Main extends JavaPlugin {
     private ScoreboardManager scoreboardManager;
     private org.example.cyveplay.plugins.Market.MarketManager marketManager;  // Neu hinzugefügt
     private EnderchestManager enderchestManager;
-    private JobManager jobManager;
-    private PlayerJobManager playerJobManager;
     private CasinoManager casinoManager;
+    private BountyManager bountyManager;
 
     private AuctionManager auctionManager;
 
@@ -40,22 +40,20 @@ public class Main extends JavaPlugin {
         dataManager = new DataManager(this);
         scoreboardManager = new ScoreboardManager(this);
         marketManager = new org.example.cyveplay.plugins.Market.MarketManager(this, moneyManager);  // Neu hinzugefügt
-        jobManager = new JobManager();
-        playerJobManager = new PlayerJobManager();
         casinoManager = new CasinoManager(this, moneyManager);
+        bountyManager = new BountyManager(moneyManager, this);
         Bukkit.getPluginManager().registerEvents(new Listener() {
             @org.bukkit.event.EventHandler
             public void onInventoryClick(InventoryClickEvent event) {
                 casinoManager.handleInventoryClick(event);
             }
         }, this);
+        try {
+            BountyManager.loadBountyList();
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
 
-
-        // JobEvents Listener für Fortschritt und andere Job-Events registrieren
-        getServer().getPluginManager().registerEvents(new JobAdvances(playerJobManager), this);
-
-        // Command für Jobs registrieren
-        this.getCommand("job").setExecutor(new PlayerJobCommand(jobManager, playerJobManager));
 
         // Lade die Daten für alle Spieler, auch die, die nicht online sind
         for (UUID playerUUID : dataManager.getAllPlayerUUIDs()) {  // Hier rufst du die UUIDs aus der Datei ab
@@ -78,6 +76,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new AntiReportSystem(), this);
         getServer().getPluginManager().registerEvents(new EnderchestManager(this), this);
+        getServer().getPluginManager().registerEvents(new BountyManager(moneyManager, this),this);
 
         getServer().getPluginManager().registerEvents(new MarketManager(this, moneyManager), this);
 
@@ -94,6 +93,7 @@ public class Main extends JavaPlugin {
         this.getCommand("enderchest").setExecutor(new org.example.cyveplay.plugins.Enderchest.EnderchestCommand(enderchestManager));
         this.getCommand("auction").setExecutor(new AuctionCommand(this));
         this.getCommand("gambling").setExecutor(new org.example.cyveplay.plugins.Casino.CasinoCommand(casinoManager));
+        this.getCommand("bounty").setExecutor(new BountyCommand(bountyManager, moneyManager));
 
         enderchestManager.loadAllEnderchests(dataManager.getAllPlayerUUIDs());
 
@@ -109,6 +109,7 @@ public class Main extends JavaPlugin {
             dataManager.savePermissions(playerUUID, permissionManager.getPermissions(playerUUID));
         }
         enderchestManager.saveAllEnderChests();
+        BountyManager.saveBountyList();
     }
 
     public org.example.cyveplay.plugins.Money.MoneyManager getMoneyManager() {

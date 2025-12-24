@@ -3,6 +3,7 @@ package org.example.cyveplay.plugins.Auction;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -10,9 +11,9 @@ import org.example.cyveplay.plugins.Money.MoneyManager;
 import org.example.cyveplay.plugins.Utils;
 
 public class Auction {
-    private String ownerName;
-    private UUID owner;
-    private ItemStack item;
+    private final String ownerName;
+    private final UUID owner;
+    private final ItemStack item;
     public double highestBidderPrice;
     public UUID highestBidder;
 
@@ -33,12 +34,12 @@ public class Auction {
         boolean success = false;
         if (ownerPlayer != null && ownerPlayer.isOnline()) {
             if (this.highestBidder == null) {
-                Utils.sendMessageToAllPlayers("Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da keiner geboten hat");
+                Utils.sendMessageToAllPlayers(ChatColor.RED + "Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da keiner geboten hat");
             } else {
                 Player bidderPlayer = plugin.getServer().getPlayer(this.highestBidder);
                 if (bidderPlayer != null && bidderPlayer.isOnline()) {
                     if (moneyManager.getMoney(this.highestBidder) < this.highestBidderPrice) {
-                        Utils.sendMessageToAllPlayers("Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da der höchste bieter zu wenig Geld hat");
+                        Utils.sendMessageToAllPlayers(ChatColor.RED + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da der höchste bieter zu wenig Geld hat");
                     } else {
                         moneyManager.setMoney(this.highestBidder, moneyManager.getMoney(this.highestBidder) - this.highestBidderPrice);
                         moneyManager.setMoney(this.owner, moneyManager.getMoney(this.owner) + this.highestBidderPrice);
@@ -47,7 +48,7 @@ public class Auction {
                         success = true;
                     }
                 } else {
-                    Utils.sendMessageToAllPlayers("Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da der höchste bieter nicht Online ist");
+                    Utils.sendMessageToAllPlayers(ChatColor.RED + "Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da der höchste bieter nicht Online ist");
                 }
             }
 
@@ -56,7 +57,7 @@ public class Auction {
             }
 
         } else  {
-            Utils.sendMessageToAllPlayers("Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da der besitzer nicht Online ist");
+            Utils.sendMessageToAllPlayers(ChatColor.RED + "Die Auktion von " + this.ownerName + " wurde beendet, aber die Transaktion konnte nicht durch geführt werden, da der besitzer nicht Online ist");
         }
     }
 }
